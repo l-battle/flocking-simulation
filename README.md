@@ -1,23 +1,46 @@
-# Violet Starter Kit
+# Flocking & Separation Weight — PCI Group 19
 
-The Violet Starter Kit includes a couple of [images](./images) for you to use in your simulations.
-In addition, it includes a [template](./flocking.py) which you can use to build the flocking simulation.
+Project for the **Project Collective Intelligence (PCI)** course (BSc AI, VU Amsterdam).
+We study how the **separation weight** in a Boids-style flocking model affects flock
+cohesion, measured as the **average nearest-neighbour distance (ANND)** across agents.
 
-Simply click on the shiny green `Use this template` button at the top of this page to create your own GitHub repository.
-From there, [clone your repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) with either:
-- [GitHub Desktop](https://desktop.github.com) (recommended)
-- [The GitHub CLI](https://cli.github.com)
-- or manually with the `git clone` command
+📄 **Final report:** [`report/PCI_final_report_group19.pdf`](report/PCI_final_report_group19.pdf)
 
-## Getting Started
+![Results](figures/main_plot.png)
 
-[Violet](https://github.com/m-rots/violet) is built on top of the latest and greatest Python features such as type hints, generics and dataclasses.
-Therefore, you need to have the latest version of Python installed: Python 3.13 or later.
+## Overview
 
-The easiest way of installing the latest version of Python, as well as creating a virtual environment, is by installing [uv](https://docs.astral.sh/uv/getting-started/installation/).
+The simulation is built on [Violet](https://github.com/m-rots/violet), with 50 agents
+following the classic alignment / cohesion / separation rules. We vary the separation
+weight over five conditions (0.1, 0.3, 0.5, 0.7, 1.0) and run each condition with the
+same 10 seeds. Each run lasts 500 ticks; the first 200 ticks are discarded as a
+stabilisation phase and ANND is averaged over the stable phase.
 
-Once installed, simply run the following command to run the code:
+Because the same seeds are reused in every condition (a matched, within-subjects
+design), the analysis uses a **repeated-measures ANOVA**, confirmed with a Friedman
+test, and paired Wilcoxon pairwise comparisons with Bonferroni correction. ANND
+increases monotonically with separation weight (see the report for full results).
+
+## Repository structure
+
+| Path | Description |
+|---|---|
+| `flocking.py` | Flocking simulation + experiment loop (ANND per condition/seed) |
+| `anova_analysis.py` | Statistical analysis: RM-ANOVA, Friedman, paired Wilcoxon, trend regression |
+| `plot_seed_spread.py` | Per-seed spread plot of ANND vs. separation weight |
+| `make_diagrams.py` | Diagrams used in the presentation slides |
+| `figures/` | Generated plots and diagrams |
+| `report/` | Final report (PDF) |
+| `images/` | Agent sprites used by the simulator |
+
+## Running
+
+Requires Python 3.13+ and [uv](https://docs.astral.sh/uv/):
 
 ```sh
-uv run flocking.py
+uv run flocking.py        # run the simulation experiment
+uv run anova_analysis.py  # run the statistical analysis
 ```
+
+Note: `flocking.py` is currently set to a single seed (`SEEDS = list(range(1))`) for a
+quick run; the results in the report were produced with `SEEDS = list(range(10))`.
