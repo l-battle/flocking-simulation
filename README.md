@@ -4,8 +4,6 @@ Project for the **Project Collective Intelligence (PCI)** course (BSc AI, VU Ams
 We study how the **separation weight** in a Boids-style flocking model affects flock
 cohesion, measured as the **average nearest-neighbour distance (ANND)** across agents.
 
-📄 **Final report:** [`report/PCI_final_report_group19.pdf`](report/PCI_final_report_group19.pdf)
-
 ![Results](figures/main_plot.png)
 
 ## Overview
@@ -19,7 +17,7 @@ stabilisation phase and ANND is averaged over the stable phase.
 Because the same seeds are reused in every condition (a matched, within-subjects
 design), the analysis uses a **repeated-measures ANOVA**, confirmed with a Friedman
 test, and paired Wilcoxon pairwise comparisons with Bonferroni correction. ANND
-increases monotonically with separation weight (see the report for full results).
+increases monotonically with separation weight.
 
 ## Repository structure
 
@@ -30,7 +28,6 @@ increases monotonically with separation weight (see the report for full results)
 | `plot_seed_spread.py` | Per-seed spread plot of ANND vs. separation weight |
 | `make_diagrams.py` | Diagrams used in the presentation slides |
 | `figures/` | Generated plots and diagrams |
-| `report/` | Final report (PDF) |
 | `images/` | Agent sprites used by the simulator |
 
 ## Running
@@ -43,4 +40,4 @@ uv run anova_analysis.py  # run the statistical analysis
 ```
 
 Note: `flocking.py` is currently set to a single seed (`SEEDS = list(range(1))`) for a
-quick run; the results in the report were produced with `SEEDS = list(range(10))`.
+quick run; the results in `anova_analysis.py` were produced with `SEEDS = list(range(10))`.
